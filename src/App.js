@@ -1,6 +1,5 @@
-import Home from "./components/Home";
 import "bootstrap/dist/css/bootstrap.min.css"; // Bootstrap CSS
-import Movies from "./components/Movies";
+import { Outlet } from "react-router-dom";
 
 function App() {
   return (
@@ -21,30 +20,44 @@ function App() {
         <div className="col-md-2">
           <nav>
             <div className="list-group">
-              <a href="#!" className="list-group-item list-group-item-action">
+              <a href="/" className="list-group-item list-group-item-action">
                 Home
               </a>
-              <a href="#!" className="list-group-item list-group-item-action">
+              <a
+                href="/movies"
+                className="list-group-item list-group-item-action"
+              >
                 Movies
               </a>
-              <a href="#!" className="list-group-item list-group-item-action">
+              <a
+                href="/genres"
+                className="list-group-item list-group-item-action"
+              >
                 Genres
               </a>
-              <a href="#!" className="list-group-item list-group-item-action">
+              <a
+                href="/add-movies"
+                className="list-group-item list-group-item-action"
+              >
                 Add Movie
               </a>
-              <a href="#!" className="list-group-item list-group-item-action">
+              <a
+                href="/manage-catalogue"
+                className="list-group-item list-group-item-action"
+              >
                 Manage Catalogue
               </a>
-              <a href="#!" className="list-group-item list-group-item-action">
+              <a
+                href="/graph-ql"
+                className="list-group-item list-group-item-action"
+              >
                 GraphQL
               </a>
             </div>
           </nav>
         </div>
         <div className="col-md-10">
-          <Home />
-          <Movies />
+          <Outlet />
         </div>
       </div>
     </div>
