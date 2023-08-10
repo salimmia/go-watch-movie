@@ -20,7 +20,7 @@ export default function Movies() {
         release_date: "2021-03-03",
         runtime: 115,
         mpaa_rating: "PG-13",
-        sescription: "Some long description",
+        description: "Some long description",
       },
     ];
     setMovies(moviesList);
