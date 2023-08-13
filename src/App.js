@@ -3,7 +3,7 @@ import { useState } from "react";
 import { Link, Outlet } from "react-router-dom";
 
 function App() {
-  const [jwtToken, setJwtToken] = useState("sd");
+  const [jwtToken, setJwtToken] = useState("");
 
   // useEffect
 
