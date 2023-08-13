@@ -13,7 +13,7 @@ export default function Login() {
 
     console.log(email, password);
 
-    if (email === "admin@example.com") {
+    if (email === "admin@admin.com") {
       setJwtToken("abc");
     }
   }
