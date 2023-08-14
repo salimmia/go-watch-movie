@@ -1,12 +1,18 @@
 import "bootstrap/dist/css/bootstrap.min.css"; // Bootstrap CSS
 import { useState } from "react";
-import { Link, Outlet } from "react-router-dom";
+import { Link, Outlet, useNavigate } from "react-router-dom";
 import Alert from "./components/Alert";
 
 function App() {
   const [jwtToken, setJwtToken] = useState("");
   const [alertMessage, setAlertMessage] = useState("");
   const [alertClassName, setAlertClassName] = useState("");
+
+  const navigate = useNavigate();
+  function logout() {
+    setJwtToken("");
+    navigate("/login");
+  }
 
   // useEffect
 
@@ -17,12 +23,12 @@ function App() {
           <h1 className="mt-3">Go Watch a Movie!</h1>
         </div>
         <div className="col text-end">
-          {!jwtToken ? (
+          {jwtToken === "" ? (
             <Link to="/login">
               <span className="badge bg-success">Login</span>
             </Link>
           ) : (
-            <Link to="#!">
+            <Link to="#!" onClick={logout}>
               <span className="badge bg-danger">Logout</span>
             </Link>
           )}
