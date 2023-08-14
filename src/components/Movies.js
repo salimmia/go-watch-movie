@@ -5,25 +5,22 @@ export default function Movies() {
   const [movies, setMovies] = useState([]);
 
   useEffect(() => {
-    let moviesList = [
-      {
-        id: 1,
-        title: "Priotoma",
-        release_date: "2023-03-03",
-        runtime: 116,
-        mpaa_rating: "R",
-        sescription: "Some long description",
-      },
-      {
-        id: 2,
-        title: "Avengers",
-        release_date: "2021-03-03",
-        runtime: 115,
-        mpaa_rating: "PG-13",
-        description: "Some long description",
-      },
-    ];
-    setMovies(moviesList);
+    const headers = new Headers();
+    headers.append("Content-type", "application/json");
+
+    const requestOptions = {
+      method: "GET",
+      headers: headers,
+    };
+
+    fetch(`http://localhost:8080/movies`, requestOptions)
+      .then((response) => response.json())
+      .then((data) => {
+        setMovies(data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }, []);
 
   return (
