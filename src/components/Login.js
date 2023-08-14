@@ -1,12 +1,15 @@
 import React, { useState } from "react";
 import Input from "./Form/Input";
-import { useOutletContext } from "react-router-dom";
+import { useNavigate, useOutletContext } from "react-router-dom";
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const { setJwtToken } = useOutletContext();
+  const { setAlertMessage } = useOutletContext();
+  const { setAlertClassName } = useOutletContext();
+  const navigate = useNavigate();
 
   function handleSubmit(event) {
     event.preventDefault();
@@ -15,6 +18,12 @@ export default function Login() {
 
     if (email === "admin@admin.com") {
       setJwtToken("abc");
+      setAlertClassName("d-none");
+      setAlertMessage("");
+      navigate("/");
+    } else {
+      setAlertClassName("alert-danger");
+      setAlertMessage("Invalid Credential!");
     }
   }
 
