@@ -1,20 +1,38 @@
-import "bootstrap/dist/css/bootstrap.min.css"; // Bootstrap CSS
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, Outlet, useNavigate } from "react-router-dom";
 import Alert from "./components/Alert";
 
 function App() {
   const [jwtToken, setJwtToken] = useState("");
   const [alertMessage, setAlertMessage] = useState("");
-  const [alertClassName, setAlertClassName] = useState("");
+  const [alertClassName, setAlertClassName] = useState("d-none");
 
   const navigate = useNavigate();
-  function logout() {
+
+  const logOut = () => {
     setJwtToken("");
     navigate("/login");
-  }
+  };
 
-  // useEffect
+  useEffect(() => {
+    if (jwtToken === "") {
+      const requestOptions = {
+        method: "GET",
+        credentials: "include",
+      };
+
+      fetch(`/refresh`, requestOptions)
+        .then((response) => response.json())
+        .then((data) => {
+          if (data.access_token) {
+            setJwtToken(data.access_token);
+          }
+        })
+        .catch((error) => {
+          console.log("user is not logged in", error);
+        });
+    }
+  }, [jwtToken]);
 
   return (
     <div className="container">
@@ -28,9 +46,9 @@ function App() {
               <span className="badge bg-success">Login</span>
             </Link>
           ) : (
-            <Link to="#!" onClick={logout}>
+            <a href="#!" onClick={logOut}>
               <span className="badge bg-danger">Logout</span>
-            </Link>
+            </a>
           )}
         </div>
         <hr className="mb-3"></hr>
@@ -55,17 +73,16 @@ function App() {
               >
                 Genres
               </Link>
-              {jwtToken && (
+              {jwtToken !== "" && (
                 <>
-                  {" "}
                   <Link
-                    to="/admin/movies/0"
+                    to="/admin/movie/0"
                     className="list-group-item list-group-item-action"
                   >
                     Add Movie
                   </Link>
                   <Link
-                    to="/admin"
+                    to="/manage-catalogue"
                     className="list-group-item list-group-item-action"
                   >
                     Manage Catalogue
@@ -82,7 +99,7 @@ function App() {
           </nav>
         </div>
         <div className="col-md-10">
-          <Alert alertMessage={alertMessage} alertClassName={alertClassName} />
+          <Alert message={alertMessage} className={alertClassName} />
           <Outlet
             context={{
               jwtToken,

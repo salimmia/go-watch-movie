@@ -1,17 +1,18 @@
-import React, { useState } from "react";
-import Input from "./Form/Input";
+import { useState } from "react";
 import { useNavigate, useOutletContext } from "react-router-dom";
+import Input from "./form/Input";
 
-export default function Login() {
+const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const { setJwtToken } = useOutletContext();
-  const { setAlertMessage } = useOutletContext();
   const { setAlertClassName } = useOutletContext();
+  const { setAlertMessage } = useOutletContext();
+
   const navigate = useNavigate();
 
-  function handleSubmit(event) {
+  const handleSubmit = (event) => {
     event.preventDefault();
 
     // build the request payload
@@ -46,33 +47,38 @@ export default function Login() {
         setAlertClassName("alert-danger");
         setAlertMessage(error);
       });
-  }
+  };
 
   return (
-    <>
-      <div className="col-md-6 offset-md-3">
-        <h1>Login</h1>
+    <div className="col-md-6 offset-md-3">
+      <h2>Login</h2>
+      <hr />
+
+      <form onSubmit={handleSubmit}>
+        <Input
+          title="Email Address"
+          type="email"
+          className="form-control"
+          name="email"
+          autoComplete="email-new"
+          onChange={(event) => setEmail(event.target.value)}
+        />
+
+        <Input
+          title="Password"
+          type="password"
+          className="form-control"
+          name="password"
+          autoComplete="password-new"
+          onChange={(event) => setPassword(event.target.value)}
+        />
+
         <hr />
-        <form onSubmit={handleSubmit}>
-          <Input
-            title="Email Address"
-            type="email"
-            className="form-control"
-            name="email"
-            autoComplete="email-new"
-            onChange={(event) => setEmail(event.target.value)}
-          />
-          <Input
-            title="Password"
-            type="password"
-            className="form-control"
-            name="password"
-            autoComplete="password-new"
-            onChange={(event) => setPassword(event.target.value)}
-          />
-          <Input type="submit" className="btn btn-primary" value="login" />
-        </form>
-      </div>
-    </>
+
+        <input type="submit" className="btn btn-primary" value="Login" />
+      </form>
+    </div>
   );
-}
+};
+
+export default Login;
