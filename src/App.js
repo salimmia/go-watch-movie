@@ -7,6 +7,9 @@ function App() {
   const [alertMessage, setAlertMessage] = useState("");
   const [alertClassName, setAlertClassName] = useState("d-none");
 
+  const [ticking, setTtcking] = useState(false);
+  const [tickingInterval, setTickingInterval] = useState(null);
+
   const navigate = useNavigate();
 
   const logOut = () => {
@@ -44,6 +47,26 @@ function App() {
         });
     }
   }, [jwtToken]);
+
+  const toogleRefresh = () => {
+    console.log("clicked");
+
+    if (!ticking) {
+      console.log("turning on ticking...");
+      let i = setInterval(() => {
+        console.log("this will run every second");
+      }, 1000);
+      setTickingInterval(i);
+      console.log("setting tick interval to", i);
+      setTtcking(true);
+    } else {
+      console.log("turning off ticking");
+      console.log("turning off ticking interval", tickingInterval);
+      setTickingInterval(null);
+      clearInterval(tickingInterval);
+      setTtcking(false);
+    }
+  };
 
   return (
     <div className="container">
@@ -110,6 +133,9 @@ function App() {
           </nav>
         </div>
         <div className="col-md-10">
+          <a className="btn btn-primary" href="#!" onClick={toogleRefresh}>
+            Toggle Ticking
+          </a>
           <Alert message={alertMessage} className={alertClassName} />
           <Outlet
             context={{
