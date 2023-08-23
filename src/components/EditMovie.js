@@ -10,16 +10,14 @@ const EditMovie = () => {
 
   const [error, setError] = useState(null);
   const [errors, setErrors] = useState([]);
-  const [movie, setMovie] = useState([
-    {
-      id: 0,
-      title: "",
-      realease_date: "",
-      runtime: "",
-      mpaa_rating: "",
-      deccription: "",
-    },
-  ]);
+  const [movie, setMovie] = useState({
+    id: 0,
+    title: "",
+    realease_date: "",
+    runtime: "",
+    mpaa_rating: "",
+    deccription: "",
+  });
 
   const hasError = (key) => {
     return errors.indexOf(key) !== -1;
@@ -52,6 +50,7 @@ const EditMovie = () => {
     <div>
       <h2>Add/Edit Movie</h2>
       <hr />
+      <pre>{JSON.stringify(movie, null, 3)}</pre>
       <form onSubmit={handleSubmit}>
         <input type="hidden" name="id" value={movie.id}></input>
         <Input
