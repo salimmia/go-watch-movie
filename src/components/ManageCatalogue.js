@@ -1,20 +1,16 @@
 import { useEffect, useState } from "react";
-import { Link, useOutletContext } from "react-router-dom";
+import { Link, useNavigate, useOutletContext } from "react-router-dom";
 
 const ManageCatalogue = () => {
   const [movies, setMovies] = useState([]);
-
   const { jwtToken } = useOutletContext();
-  //   const { toggleRefresh } = useOutletContext();
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
 
   useEffect(() => {
-    // if (jwtToken === "") {
-    //   console.log(jwtToken);
-    //   navigate("/login");
-    //   return;
-    // }
-
+    if (jwtToken === "") {
+      navigate("/login");
+      return;
+    }
     const headers = new Headers();
     headers.append("Content-Type", "application/json");
     headers.append("Authorization", "Bearer " + jwtToken);
@@ -28,12 +24,11 @@ const ManageCatalogue = () => {
       .then((response) => response.json())
       .then((data) => {
         setMovies(data);
-        // toggleRefresh(true);
       })
       .catch((err) => {
         console.log(err);
       });
-  }, [jwtToken]);
+  }, [jwtToken, navigate]);
 
   return (
     <div>

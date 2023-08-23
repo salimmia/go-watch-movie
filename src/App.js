@@ -7,7 +7,7 @@ function App() {
   const [alertMessage, setAlertMessage] = useState("");
   const [alertClassName, setAlertClassName] = useState("d-none");
 
-  const [tickingInterval, setTickingInterval] = useState(null);
+  const [tickInterval, setTickInterval] = useState();
 
   const navigate = useNavigate();
 
@@ -19,12 +19,13 @@ function App() {
 
     fetch(`/logout`, requestOptions)
       .catch((error) => {
-        console.log("error loggin out", error);
+        console.log("error logging out", error);
       })
       .finally(() => {
         setJwtToken("");
         toggleRefresh(false);
       });
+
     navigate("/login");
   };
 
@@ -33,12 +34,13 @@ function App() {
       console.log("clicked");
 
       if (status) {
-        console.log("turning on ticking...");
+        console.log("turning on ticking");
         let i = setInterval(() => {
           const requestOptions = {
             method: "GET",
             credentials: "include",
           };
+
           fetch(`/refresh`, requestOptions)
             .then((response) => response.json())
             .then((data) => {
@@ -47,19 +49,19 @@ function App() {
               }
             })
             .catch((error) => {
-              console.log("user is not logged in", error);
+              console.log("user is not logged in");
             });
         }, 600000);
-        setTickingInterval(i);
+        setTickInterval(i);
         console.log("setting tick interval to", i);
       } else {
         console.log("turning off ticking");
-        console.log("turning off ticking interval", tickingInterval);
-        setTickingInterval(null);
-        clearInterval(tickingInterval);
+        console.log("turning off tickInterval", tickInterval);
+        setTickInterval(null);
+        clearInterval(tickInterval);
       }
     },
-    [tickingInterval]
+    [tickInterval]
   );
 
   useEffect(() => {
@@ -125,7 +127,7 @@ function App() {
               {jwtToken !== "" && (
                 <>
                   <Link
-                    to="/admin/movies/0"
+                    to="/admin/movie/0"
                     className="list-group-item list-group-item-action"
                   >
                     Add Movie
